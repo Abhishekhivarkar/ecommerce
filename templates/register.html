@@ -1,0 +1,599 @@
+{% extends 'base.html' %}
+{% block main %}
+
+<style>
+  :root {
+    --primary-color: #4f46e5;
+    --primary-dark: #4338ca;
+    --secondary-color: #10b981;
+    --error-color: #ef4444;
+    --light-color: #f9fafb;
+    --dark-color: #111827;
+    --text-color: #374151;
+    --text-light: #6b7280;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --border-radius: 12px;
+    --border-radius-lg: 16px;
+  }
+
+  .registration-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .registration-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 80%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, rgba(79, 70, 229, 0) 70%);
+    z-index: 0;
+  }
+
+  .registration-card {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    transition: var(--transition);
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(229, 231, 235, 0.5);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .registration-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .card-header {
+    position: relative;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .card-header h4 {
+    font-weight: 700;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 2;
+    font-size: 1.75rem;
+    letter-spacing: -0.5px;
+  }
+
+  .card-header::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1;
+  }
+
+  .card-header::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--secondary-color);
+    border-radius: 2px;
+    z-index: 2;
+  }
+
+  .card-body {
+    padding: 2.5rem;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+    color: var(--dark-color);
+    transition: var(--transition);
+    font-size: 0.95rem;
+  }
+
+  .form-control {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 1rem;
+    transition: var(--transition);
+    height: auto;
+    width: 100%;
+    background-color: #fff;
+    color: var(--text-color);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    outline: none;
+  }
+
+  .form-control::placeholder {
+    color: #9ca3af;
+    opacity: 1;
+  }
+
+  .input-group {
+    position: relative;
+    margin-bottom: 1.75rem;
+  }
+
+  .input-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+  }
+
+  .btn-register {
+    background: linear-gradient(to right, var(--secondary-color), #059669);
+    border: none;
+    padding: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    transition: var(--transition);
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-register:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+    background: linear-gradient(to right, #059669, var(--secondary-color));
+  }
+
+  .btn-register:active {
+    transform: translateY(0);
+  }
+
+  .btn-register::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+  }
+
+  .btn-register:hover::before {
+    left: 100%;
+  }
+
+  .card-footer {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--light-color);
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .card-footer a {
+    color: var(--primary-color);
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition);
+    position: relative;
+  }
+
+  .card-footer a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: var(--transition);
+  }
+
+  .card-footer a:hover {
+    color: var(--primary-dark);
+  }
+
+  .card-footer a:hover::after {
+    width: 100%;
+  }
+
+  .alert {
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    border: none;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: #fee2e2;
+    color: var(--error-color);
+  }
+
+  .alert-success {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .alert-success::before {
+    background: #166534;
+  }
+
+  .alert::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--error-color);
+  }
+
+  .alert-icon {
+    margin-right: 0.75rem;
+    font-size: 1.25rem;
+  }
+
+  .alert-content {
+    flex-grow: 1;
+  }
+
+  /* Animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .animate-fade {
+    opacity: 0;
+    animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .delay-1 { animation-delay: 0.2s; }
+  .delay-2 { animation-delay: 0.4s; }
+  .delay-3 { animation-delay: 0.6s; }
+
+  /* Password strength indicator */
+  .password-strength {
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    margin-top: 0.5rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .strength-meter {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    background: var(--error-color);
+    transition: var(--transition);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .registration-section {
+      padding: 1.5rem;
+    }
+    
+    .card-header {
+      padding: 1.75rem;
+    }
+    
+    .card-body {
+      padding: 2rem;
+    }
+    
+    .card-header h4 {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .card-header {
+      padding: 1.5rem;
+    }
+    
+    .card-body {
+      padding: 1.75rem;
+    }
+    
+    .form-control {
+      padding: 12px 14px;
+    }
+    
+    .btn-register {
+      padding: 14px;
+    }
+  }
+
+  /* Additional ripple effect style */
+  .ripple-effect {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: ripple 1s linear;
+    pointer-events: none;
+  }
+
+  @keyframes ripple {
+    0% {
+      width: 0;
+      height: 0;
+      opacity: 0.5;
+    }
+    100% {
+      width: 500px;
+      height: 500px;
+      opacity: 0;
+    }
+  }
+
+  /* Invalid feedback styling */
+  .invalid-feedback {
+    color: var(--error-color);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Error input styling */
+  .is-invalid {
+    border-color: var(--error-color) !important;
+  }
+
+  .is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+  }
+</style>
+
+<section class="registration-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="registration-card animate-fade">
+          <div class="card-header">
+            <h4>Create Your Account</h4>
+          </div>
+          
+          <div class="card-body">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %} animate-fade">
+                  <div class="alert-icon">
+                    <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %}"></i>
+                  </div>
+                  <div class="alert-content">
+                    {{ message }}
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            {% if form.errors %}
+              <div class="alert animate-fade">
+                <div class="alert-icon">
+                  <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="alert-content">
+                  Please correct the errors below.
+                </div>
+              </div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'register' %}">
+              {% csrf_token %}
+              
+              <div class="input-group animate-fade delay-1">
+                <label for="id_username" class="form-label">Username</label>
+                <input type="text" class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+                       id="id_username" name="username" 
+                       value="{{ form.username.value|default_if_none:'' }}"
+                       placeholder="Enter your username" required>
+                <i class="fas fa-user input-icon"></i>
+                {% if form.username.errors %}
+                  <div class="invalid-feedback">
+                    {{ form.username.errors|join:", " }}
+                  </div>
+                {% endif %}
+              </div>
+              
+              <div class="input-group animate-fade delay-1">
+                <label for="id_email" class="form-label">Email Address</label>
+                <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" 
+                       id="id_email" name="email" 
+                       value="{{ form.email.value|default_if_none:'' }}"
+                       placeholder="your@email.com" required>
+                <i class="fas fa-envelope input-icon"></i>
+                {% if form.email.errors %}
+                  <div class="invalid-feedback">
+                    {{ form.email.errors|join:", " }}
+                  </div>
+                {% endif %}
+              </div>
+              
+              <div class="input-group animate-fade delay-2">
+                <label for="id_password1" class="form-label">Password</label>
+                <input type="password" class="form-control {% if form.password1.errors %}is-invalid{% endif %}" 
+                       id="id_password1" name="password1" 
+                       placeholder="Create a password" required>
+                <i class="fas fa-lock input-icon"></i>
+                <div class="password-strength">
+                  <div class="strength-meter" id="password-strength-meter"></div>
+                </div>
+                {% if form.password1.errors %}
+                  <div class="invalid-feedback">
+                    {{ form.password1.errors|join:", " }}
+                  </div>
+                {% endif %}
+              </div>
+              
+              <div class="input-group animate-fade delay-2">
+                <label for="id_password2" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control {% if form.password2.errors %}is-invalid{% endif %}" 
+                       id="id_password2" name="password2" 
+                       placeholder="Confirm your password" required>
+                <i class="fas fa-lock input-icon"></i>
+                {% if form.password2.errors %}
+                  <div class="invalid-feedback">
+                    {{ form.password2.errors|join:", " }}
+                  </div>
+                {% endif %}
+              </div>
+              
+              <div class="animate-fade delay-3 mt-4">
+                <button type="submit" class="btn btn-register">
+                  <i class="fas fa-user-plus"></i> Create Account
+                </button>
+              </div>
+            </form>
+          </div>
+          
+          <div class="card-footer">
+            <small class="text-muted">Already have an account? <a href="{% url 'login' %}">Sign in here</a></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<script>
+  // Enhanced animations and interactions
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animate form elements sequentially
+    const formGroups = document.querySelectorAll('.input-group');
+    formGroups.forEach((group, index) => {
+      group.style.opacity = '0';
+      group.style.transform = 'translateY(20px)';
+      group.style.animation = `fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards ${index * 0.15 + 0.3}s`;
+    });
+
+    // Add floating animation to card on hover
+    const card = document.querySelector('.registration-card');
+    if (card) {
+      card.addEventListener('mouseenter', () => {
+        card.classList.add('floating');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.classList.remove('floating');
+      });
+    }
+
+    // Password strength indicator
+    const passwordInput = document.getElementById('id_password1');
+    const strengthMeter = document.getElementById('password-strength-meter');
+    
+    if (passwordInput && strengthMeter) {
+      passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        let strength = 0;
+        
+        // Length check
+        if (password.length >= 8) strength += 1;
+        if (password.length >= 12) strength += 1;
+        
+        // Character variety checks
+        if (/[A-Z]/.test(password)) strength += 1;
+        if (/[0-9]/.test(password)) strength += 1;
+        if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+        
+        // Update meter
+        const width = (strength / 5) * 100;
+        strengthMeter.style.width = `${width}%`;
+        
+        // Update color
+        if (strength <= 1) {
+          strengthMeter.style.backgroundColor = '#ef4444'; // red
+        } else if (strength <= 3) {
+          strengthMeter.style.backgroundColor = '#f59e0b'; // amber
+        } else {
+          strengthMeter.style.backgroundColor = '#10b981'; // emerald
+        }
+      });
+    }
+
+    // Add ripple effect to register button
+    const registerBtn = document.querySelector('.btn-register');
+    if (registerBtn) {
+      registerBtn.addEventListener('click', function(e) {
+        const x = e.clientX - e.target.getBoundingClientRect().left;
+        const y = e.clientY - e.target.getBoundingClientRect().top;
+        
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple-effect';
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 1000);
+      });
+    }
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,155 @@
+
+<header class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="logo">My<span>Store</span></div>
+        <nav>
+          <a href="/"><i class="fas fa-home mr-1"></i> Home</a>
+          <a href="#"><i class="fas fa-box-open mr-1"></i> Products</a>
+          <a href="#"><i class="fas fa-info-circle mr-1"></i> About Us</a>
+          <a href="/contact"><i class="fas fa-envelope mr-1"></i> Contact</a>
+          <a href="/register"><i class="fas fa-user-plus mr-1"></i> Register</a>
+          <a href="/login"><i class="fas fa-sign-in-alt mr-1"></i> Login</a>
+        </nav>
+        <div class="search-bar">
+          <input type="text" class="form-control" placeholder="Search products...">
+          <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </header>
+<style>
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #f18930;
+  --accent-color: #3498db;
+  --light-bg: #f8f9fa;
+  --dark-text: #2c3e50;
+  --light-text: #ecf0f1;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--dark-text);
+  background-color: var(--light-bg);
+  line-height: 1.6;
+}
+
+.layout-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Header Styles */
+header {
+  background: white;
+  padding: 15px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.logo span {
+  color: var(--secondary-color);
+}
+
+nav a {
+  color: var(--primary-color);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+nav a:hover {
+  color: var(--secondary-color);
+  background-color: rgba(241, 137, 48, 0.1);
+  transform: translateY(-2px);
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  border: 2px solid #e0e0e0;
+  border-radius: 25px 0 0 25px;
+  padding: 10px 20px;
+  transition: all 0.3s;
+}
+
+.search-bar input:focus {
+  border-color: var(--accent-color);
+  box-shadow: none;
+}
+
+.search-bar button {
+  border-radius: 0 25px 25px 0;
+  background-color: var(--secondary-color);
+  border: none;
+  padding: 10px 20px;
+  transition: all 0.3s;
+}
+
+.search-bar button:hover {
+  background-color: #e07d20;
+  transform: translateY(-1px);
+}
+
+/* Main Content */
+main {
+  flex: 1;
+  padding: 30px 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  header .d-flex {
+    flex-direction: column;
+  }
+
+  .logo {
+    margin-bottom: 15px;
+  }
+
+  nav {
+    margin: 15px 0;
+  }
+
+  .search-bar {
+    width: 100%;
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    margin: 5px;
+  }
+}
+
+</style>
+

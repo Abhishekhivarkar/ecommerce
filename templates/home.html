@@ -1,0 +1,656 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+
+<style>
+  :root {
+    --primary-color: #2c3e50;
+    --secondary-color: #e74c3c;
+    --accent-color: #3498db;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Hero Carousel */
+  .hero-carousel {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 4rem;
+    height: 600px;
+  }
+  
+  .hero-carousel .carousel-inner {
+    height: 100%;
+    border-radius: 12px;
+  }
+  
+  .hero-carousel .carousel-item {
+    height: 100%;
+    transition: transform 1s ease-in-out;
+  }
+  
+  .hero-carousel img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    filter: brightness(0.8);
+    transition: filter 0.5s ease;
+  }
+  
+  .hero-carousel .carousel-item:hover img {
+    filter: brightness(1);
+  }
+  
+  .hero-carousel .carousel-caption {
+    bottom: 25%;
+    text-align: left;
+    left: 10%;
+    right: 40%;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.5s ease;
+  }
+  
+  .hero-carousel .carousel-item.active .carousel-caption {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  .hero-carousel h5 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .hero-carousel p {
+    font-size: 1.2rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+  .hero-carousel .carousel-control-prev,
+  .hero-carousel .carousel-control-next {
+    width: 60px;
+    height: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .hero-carousel:hover .carousel-control-prev,
+  .hero-carousel:hover .carousel-control-next {
+    opacity: 1;
+  }
+  
+  .hero-carousel .carousel-control-prev { left: 30px; }
+  .hero-carousel .carousel-control-next { right: 30px; }
+  
+  .hero-carousel .carousel-indicators {
+    bottom: 20px;
+  }
+  
+  .hero-carousel .carousel-indicators li {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 8px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  .hero-carousel .carousel-indicators .active {
+    background-color: white;
+    transform: scale(1.3);
+  }
+  
+  /* Value Proposition Banner */
+  .value-proposition {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1a2b3c 100%);
+    color: white;
+    padding: 5rem 0;
+    margin-bottom: 4rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .value-proposition::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 50%);
+    animation: pulse 15s infinite alternate;
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.7; }
+  }
+  
+  .value-proposition .container {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .value-proposition h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to right, #fff, #f1f1f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeInUp 1s ease;
+  }
+  
+  .value-proposition .lead {
+    font-size: 1.5rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeInUp 1s ease 0.2s forwards;
+    opacity: 0;
+  }
+  
+  .value-proposition .btn {
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 50px;
+    background-color: var(--secondary-color);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+    animation: fadeInUp 1s ease 0.4s forwards;
+    opacity: 0;
+  }
+  
+  .value-proposition .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 100%);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+    z-index: -1;
+  }
+  
+  .value-proposition .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.6);
+  }
+  
+  .value-proposition .btn:hover::before {
+    transform: translateX(0);
+  }
+  
+  /* Featured Products Section */
+  .featured-products {
+    margin-bottom: 5rem;
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    position: relative;
+  }
+  
+  .section-header h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    position: relative;
+  }
+  
+  .section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--secondary-color);
+    border-radius: 2px;
+  }
+  
+  .section-header p {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2.5rem;
+  }
+  
+  .product-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-card .badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--secondary-color);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 2;
+  }
+  
+  .product-card .product-image {
+    height: 250px;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .product-card .product-image img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+  }
+  
+  .product-card:hover .product-image img {
+    transform: scale(1.1);
+  }
+  
+  .product-card .product-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.03) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .product-card:hover .product-image::before {
+    opacity: 1;
+  }
+  
+  .product-card .product-body {
+    padding: 1.8rem;
+    text-align: center;
+  }
+  
+  .product-card .product-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 0.8rem;
+    transition: color 0.3s ease;
+  }
+  
+  .product-card:hover .product-title {
+    color: var(--secondary-color);
+  }
+  
+  .product-card .product-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+  }
+  
+  .product-card .product-price .old-price {
+    font-size: 1rem;
+    color: #999;
+    text-decoration: line-through;
+    margin-right: 8px;
+  }
+  
+  .product-card .btn {
+    padding: 0.7rem 1.8rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 50px;
+    background-color: var(--primary-color);
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  .product-card .btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Features Grid */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 4rem 0;
+  }
+  
+  .feature-card {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feature-card i {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    display: inline-block;
+  }
+  
+  .feature-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+  }
+  
+  .feature-card p {
+    color: #666;
+    font-size: 0.95rem;
+  }
+  
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 992px) {
+    .hero-carousel {
+      height: 500px;
+    }
+    
+    .hero-carousel .carousel-caption {
+      bottom: 15%;
+      left: 5%;
+      right: 5%;
+    }
+    
+    .hero-carousel h5 {
+      font-size: 2rem;
+    }
+    
+    .value-proposition h1 {
+      font-size: 2.8rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-carousel {
+      height: 400px;
+    }
+    
+    .hero-carousel .carousel-caption {
+      padding: 1rem;
+      bottom: 10%;
+    }
+    
+    .hero-carousel h5 {
+      font-size: 1.5rem;
+    }
+    
+    .hero-carousel p {
+      font-size: 1rem;
+    }
+    
+    .value-proposition {
+      padding: 3rem 0;
+    }
+    
+    .value-proposition h1 {
+      font-size: 2.2rem;
+    }
+    
+    .value-proposition .lead {
+      font-size: 1.2rem;
+    }
+    
+    .section-header h2 {
+      font-size: 2.2rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .hero-carousel {
+      height: 300px;
+    }
+    
+    .hero-carousel .carousel-caption {
+      display: none;
+    }
+    
+    .product-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  
+
+  
+</style>
+
+<!-- Hero Carousel -->
+<div id="heroCarousel" class="hero-carousel carousel slide" data-ride="carousel" data-interval="5000">
+  <ol class="carousel-indicators">
+    <li data-target="#heroCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#heroCarousel" data-slide-to="1"></li>
+    <li data-target="#heroCarousel" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="{% static 'image/image1.jpg' %}" alt="Premium Products">
+      <div class="carousel-caption">
+        <h5>New Arrivals</h5>
+        <p>Discover our latest collection of premium products</p>
+        <a href="#" class="btn btn-primary mt-3">Shop Now</a>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="{% static 'image/image2.jpg' %}" alt="Summer Sale">
+      <div class="carousel-caption">
+        <h5>Summer Sale</h5>
+        <p>Up to 50% off selected items - Limited time offer</p>
+        <a href="#" class="btn btn-primary mt-3">View Deals</a>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="{% static 'image/image3.jpg' %}" alt="Premium Quality">
+      <div class="carousel-caption">
+        <h5>Premium Quality</h5>
+        <p>Only the best for our valued customers</p>
+        <a href="#" class="btn btn-primary mt-3">Explore</a>
+      </div>
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+<!-- Value Proposition -->
+<section class="value-proposition text-center">
+  <div class="container">
+    <h1>Elevate Your Shopping Experience</h1>
+    <p class="lead">Discover premium products with unbeatable quality and service that exceeds your expectations</p>
+    <a href="#" class="btn btn-primary btn-lg">Start Shopping</a>
+  </div>
+</section>
+
+<!-- Featured Products -->
+<section class="featured-products container">
+  <div class="section-header">
+    <h2>Featured Products</h2>
+    <p>Handpicked selection of our most popular items</p>
+  </div>
+  
+  <div class="product-grid">
+    <!-- Product 1 -->
+    <div class="product-card">
+      <span class="badge">New</span>
+      <div class="product-image">
+        <img src="https://inventstore.in/wp-content/uploads/2023/04/iPhone_13_Blue.webp" alt="iPhone 18 Pro Max">
+      </div>
+      <div class="product-body">
+        <h3 class="product-title">iPhone 18 Pro Max</h3>
+        <div class="product-price">
+          <span class="old-price">$1,199.00</span>
+          <span>$999.00</span>
+        </div>
+        <a href="#" class="btn btn-primary">Add to Cart</a>
+      </div>
+    </div>
+    
+    <!-- Product 2 -->
+    <div class="product-card">
+      <span class="badge">Best Seller</span>
+      <div class="product-image">
+        <img src="https://images.samsung.com/is/image/samsung/p6pim/in/2501/gallery/in-galaxy-s25-s938-sm-s938bzbcins-thumb-544702652?$UX_EXT2_PNG$" alt="Samsung S24 Ultra">
+      </div>
+      <div class="product-body">
+        <h3 class="product-title">Samsung S24 Ultra</h3>
+        <div class="product-price">
+          <span class="old-price">$999.00</span>
+          <span>$899.00</span>
+        </div>
+        <a href="#" class="btn btn-primary">Add to Cart</a>
+      </div>
+    </div>
+    
+    <!-- Product 3 -->
+    <div class="product-card">
+      <span class="badge">Trending</span>
+      <div class="product-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5AecwV0Cu9HplfPQSz_sE862HuuC228dOCg&s" alt="Premium Shoes">
+      </div>
+      <div class="product-body">
+        <h3 class="product-title">Premium Shoes</h3>
+        <div class="product-price">$30.00</div>
+        <a href="#" class="btn btn-primary">Add to Cart</a>
+      </div>
+    </div>
+    
+    <!-- Product 4 -->
+    <div class="product-card">
+      <div class="product-image">
+        <img src="https://m.media-amazon.com/images/I/71WkDp--uqL._AC_UF1000,1000_QL80_.jpg" alt="Wireless Headphones">
+      </div>
+      <div class="product-body">
+        <h3 class="product-title">MacBook Pro</h3>
+        <div class="product-price">
+          <span class="old-price">$1200.00</span>
+          <span>$999.00</span>
+        </div>
+        <a href="#" class="btn btn-primary">Add to Cart</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="container">
+  <div class="section-header">
+    <h2>Why Choose Us</h2>
+    <p>We're committed to providing the best shopping experience</p>
+  </div>
+  
+  <div class="features-grid">
+    <div class="feature-card">
+      <i class="fas fa-shipping-fast"></i>
+      <h3>Free Shipping</h3>
+      <p>Enjoy free delivery on all orders over $50</p>
+    </div>
+    
+    <div class="feature-card">
+      <i class="fas fa-undo-alt"></i>
+      <h3>Easy Returns</h3>
+      <p>30-day return policy for all products</p>
+    </div>
+    
+    <div class="feature-card">
+      <i class="fas fa-shield-alt"></i>
+      <h3>Secure Payment</h3>
+      <p>Your transactions are 100% secure</p>
+    </div>
+    
+    <div class="feature-card">
+      <i class="fas fa-headset"></i>
+      <h3>24/7 Support</h3>
+      <p>Our team is always here to help you</p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

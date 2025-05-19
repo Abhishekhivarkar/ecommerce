@@ -1,0 +1,690 @@
+{% extends 'base.html' %}
+{% block main %}
+
+<style>
+  :root {
+    --primary-color: #2563eb;
+    --primary-dark: #1e40af;
+    --secondary-color: #dc2626;
+    --accent-color: #3b82f6;
+    --light-color: #f8fafc;
+    --dark-color: #1e293b;
+    --text-color: #334155;
+    --text-light: #64748b;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --border-radius: 12px;
+    --border-radius-lg: 16px;
+  }
+
+  .contact-section {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 80%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, rgba(37, 99, 235, 0) 70%);
+    z-index: 0;
+  }
+
+  .contact-card {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    transition: var(--transition);
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(226, 232, 240, 0.5);
+  }
+
+  .contact-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .contact-header {
+    position: relative;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .contact-header h2 {
+    font-weight: 700;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 2;
+    font-size: 2rem;
+    letter-spacing: -0.5px;
+  }
+
+  .contact-header::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1;
+  }
+
+  .contact-header::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--secondary-color);
+    border-radius: 2px;
+    z-index: 2;
+  }
+
+  .contact-form {
+    padding: 2.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.75rem;
+    position: relative;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--dark-color);
+    transition: var(--transition);
+  }
+
+  .form-control {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 1rem;
+    transition: var(--transition);
+    height: auto;
+    width: 100%;
+    background-color: #fff;
+    color: var(--text-color);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .form-control:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+    outline: none;
+  }
+
+  .form-control::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+  }
+
+  textarea.form-control {
+    min-height: 180px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  .input-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+  }
+
+  .btn-submit {
+    background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+    border: none;
+    padding: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    transition: var(--transition);
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+    background: linear-gradient(to right, var(--primary-dark), var(--primary-color));
+  }
+
+  .btn-submit:active {
+    transform: translateY(0);
+  }
+
+  .btn-submit::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+  }
+
+  .btn-submit:hover::before {
+    left: 100%;
+  }
+
+  .info-card {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    transition: var(--transition);
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(226, 232, 240, 0.5);
+  }
+
+  .info-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .info-header {
+    padding: 2.5rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-header h3 {
+    font-weight: 600;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 2;
+    font-size: 1.75rem;
+  }
+
+  .info-header::before {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: -50px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1;
+  }
+
+  .address-box {
+    padding: 2.5rem;
+    background: var(--light-color);
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .address-box h5 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    position: relative;
+    display: inline-block;
+    font-size: 1.25rem;
+  }
+
+  .address-box h5::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--secondary-color);
+    border-radius: 3px;
+  }
+
+  .contact-info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+
+  .contact-info-icon {
+    flex-shrink: 0;
+    margin-right: 1rem;
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    margin-top: 2px;
+  }
+
+  .contact-info-text {
+    flex-grow: 1;
+  }
+
+  .contact-info-text p {
+    margin-bottom: 0;
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+
+  .map-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+    height: 350px;
+  }
+
+  .map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  .map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 20%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .alert {
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.75rem;
+    border: none;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .alert::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+  }
+
+  .alert-danger {
+    background: #fff5f5;
+    color: #dc2626;
+  }
+
+  .alert-danger::before {
+    background: #dc2626;
+  }
+
+  .alert-success {
+    background: #f0fdf4;
+    color: #16a34a;
+  }
+
+  .alert-success::before {
+    background: #16a34a;
+  }
+
+  .alert-icon {
+    margin-right: 0.75rem;
+    font-size: 1.25rem;
+  }
+
+  .alert-content {
+    flex-grow: 1;
+  }
+
+  .close {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1.5rem;
+    line-height: 1;
+    opacity: 0.7;
+    transition: var(--transition);
+    padding: 0;
+    margin-left: 0.75rem;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    opacity: 1;
+  }
+
+  /* Animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-fade {
+    opacity: 0;
+    animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .delay-1 { animation-delay: 0.2s; }
+  .delay-2 { animation-delay: 0.4s; }
+  .delay-3 { animation-delay: 0.6s; }
+
+  .floating {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Responsive */
+  @media (max-width: 992px) {
+    .contact-section {
+      padding: 4rem 0;
+    }
+    
+    .contact-header, .info-header {
+      padding: 2rem;
+    }
+    
+    .contact-form, .address-box {
+      padding: 2rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact-section {
+      padding: 3rem 0;
+    }
+    
+    .contact-header h2 {
+      font-size: 1.75rem;
+    }
+    
+    .info-header h3 {
+      font-size: 1.5rem;
+    }
+    
+    .contact-form, .address-box {
+      padding: 1.75rem;
+    }
+    
+    .map-container {
+      height: 250px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .contact-header, .info-header {
+      padding: 1.75rem;
+    }
+    
+    .contact-form, .address-box {
+      padding: 1.5rem;
+    }
+    
+    .form-control {
+      padding: 12px 14px;
+    }
+    
+    .btn-submit {
+      padding: 14px;
+    }
+  }
+</style>
+
+<section class="contact-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <!-- Contact Form Column -->
+      <div class="col-lg-6 mb-5 mb-lg-0 animate-fade">
+        <div class="contact-card floating">
+          <div class="contact-header">
+            <h2>Get In Touch</h2>
+          </div>
+          
+          <div class="contact-form">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show" role="alert">
+                  <div class="alert-icon">
+                    <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %}"></i>
+                  </div>
+                  <div class="alert-content">
+                    {{ message }}
+                  </div>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            <form method="POST" action="">
+              {% csrf_token %}
+              
+              <div class="form-group animate-fade delay-1">
+                <label for="name" class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="John Doe" required>
+                <i class="fas fa-user input-icon"></i>
+              </div>
+              
+              <div class="form-group animate-fade delay-2">
+                <label for="contact" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="contact" name="contact" placeholder="+91 9876543210" required>
+                <i class="fas fa-phone input-icon"></i>
+              </div>
+              
+              <div class="form-group animate-fade delay-2">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="john@example.com" required>
+                <i class="fas fa-envelope input-icon"></i>
+              </div>
+              
+              <div class="form-group animate-fade delay-3">
+                <label for="message" class="form-label">Your Message</label>
+                <textarea class="form-control" id="message" name="description" placeholder="How can we help you?" rows="5" required></textarea>
+              </div>
+              
+              <div class="animate-fade delay-3">
+                <button type="submit" class="btn btn-submit">
+                  <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Contact Info Column -->
+      <div class="col-lg-6 animate-fade delay-1">
+        <div class="info-card floating">
+          <div class="info-header">
+            <h3>Our Location</h3>
+          </div>
+          
+          <div class="address-box">
+            <h5>Headquarters</h5>
+            
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="contact-info-text">
+                <p>Tapkir Mala Chowk, Chinchwad</p>
+                <p>Rahatni, Pune 411017</p>
+                <p>Maharashtra, India</p>
+              </div>
+            </div>
+            
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <i class="fas fa-phone-alt"></i>
+              </div>
+              <div class="contact-info-text">
+                <p>+91 1234567890</p>
+                <p>+91 9876543210</p>
+              </div>
+            </div>
+            
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="contact-info-text">
+                <p>contact@mystore.com</p>
+                <p>support@mystore.com</p>
+              </div>
+            </div>
+            
+            <h5 class="mt-5">Business Hours</h5>
+            
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <i class="far fa-clock"></i>
+              </div>
+              <div class="contact-info-text">
+                <p><strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM</p>
+                <p><strong>Saturday:</strong> 10:00 AM - 4:00 PM</p>
+                <p><strong>Sunday:</strong> Closed</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="map-container">
+            <iframe
+              loading="lazy"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2748.573182267768!2d73.78657405804903!3d18.59561256451055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b93eaeff5f23%3A0x4a6fa6e0cd541a04!2sItvedant%20-%20Pimpri!5e0!3m2!1sen!2sin!4v1747400485809!5m2!1sen!2sin"
+              class="w-100"
+              height="300"
+              style="border:0;">
+            </iframe>
+            <div class="map-overlay"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<script>
+  // Enhanced animations
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animate form elements sequentially
+    const formGroups = document.querySelectorAll('.form-group');
+    formGroups.forEach((group, index) => {
+      group.style.opacity = '0';
+      group.style.transform = 'translateY(20px)';
+      group.style.animation = `fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards ${index * 0.15 + 0.3}s`;
+    });
+
+    // Add floating animation to cards on hover
+    const cards = document.querySelectorAll('.contact-card, .info-card');
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.classList.add('floating');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.classList.remove('floating');
+      });
+    });
+
+    // Add ripple effect to submit button
+    const submitBtn = document.querySelector('.btn-submit');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function(e) {
+        const x = e.clientX - e.target.getBoundingClientRect().left;
+        const y = e.clientY - e.target.getBoundingClientRect().top;
+        
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple-effect';
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 1000);
+      });
+    }
+  });
+</script>
+
+<style>
+  /* Additional ripple effect style */
+  .ripple-effect {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: ripple 1s linear;
+    pointer-events: none;
+  }
+
+  @keyframes ripple {
+    0% {
+      width: 0;
+      height: 0;
+      opacity: 0.5;
+    }
+    100% {
+      width: 500px;
+      height: 500px;
+      opacity: 0;
+    }
+  }
+</style>
+
+{% endblock %}
