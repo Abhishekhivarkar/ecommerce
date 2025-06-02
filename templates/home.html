@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block main %}
+{% block 'main' %}
 
 <style>
   :root {
@@ -496,6 +496,13 @@
 
   
 </style>
+  {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
 
 <!-- Hero Carousel -->
 <div id="heroCarousel" class="hero-carousel carousel slide" data-ride="carousel" data-interval="5000">
@@ -566,10 +573,10 @@
       <div class="product-body">
         <h3 class="product-title">iPhone 18 Pro Max</h3>
         <div class="product-price">
-          <span class="old-price">$1,199.00</span>
-          <span>$999.00</span>
+          <span class="old-price">Rs 97.999</span>
+          <span>Rs 90.000</span>
         </div>
-        <a href="#" class="btn btn-primary">Add to Cart</a>
+        <a href="#" class="btn btn-primary">Add to Cart</a>  <!-- add to cart -->
       </div>
     </div>
     
@@ -582,10 +589,10 @@
       <div class="product-body">
         <h3 class="product-title">Samsung S24 Ultra</h3>
         <div class="product-price">
-          <span class="old-price">$999.00</span>
-          <span>$899.00</span>
+          <span class="old-price">Rs 999.00</span>
+          <span>Rs 899.00</span>
         </div>
-        <a href="#" class="btn btn-primary">Add to Cart</a>
+        <a href="#" class="btn btn-primary">Add to Cart</a>   <!-- add to cart -->
       </div>
     </div>
     
@@ -597,8 +604,8 @@
       </div>
       <div class="product-body">
         <h3 class="product-title">Premium Shoes</h3>
-        <div class="product-price">$30.00</div>
-        <a href="#" class="btn btn-primary">Add to Cart</a>
+        <div class="product-price">Rs 30.00</div>
+        <a href="#" class="btn btn-primary">Add to Cart</a>   <!-- add to cart -->
       </div>
     </div>
     
@@ -610,10 +617,10 @@
       <div class="product-body">
         <h3 class="product-title">MacBook Pro</h3>
         <div class="product-price">
-          <span class="old-price">$1200.00</span>
-          <span>$999.00</span>
+          <span class="old-price">Rs 1200.00</span>
+          <span>Rs 999.00</span>
         </div>
-        <a href="#" class="btn btn-primary">Add to Cart</a>
+        <a href="#" class="btn btn-primary">Add to Cart</a>   <!-- add to cart -->
       </div>
     </div>
   </div>
@@ -653,4 +660,4 @@
   </div>
 </section>
 
-{% endblock %}
+{% endblock 'main' %}

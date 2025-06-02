@@ -1,0 +1,461 @@
+{% extends 'base.html' %}
+{% block 'main' %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                </svg>
+            </div>
+            <h2>Secure Verification</h2>
+            <p>We've sent a 6-digit code to your email</p>
+        </div>
+
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+            
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <div class="alert-content">
+                        <svg class="alert-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            {% if message.tags == 'success' %}
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                            {% else %}
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                            {% endif %}
+                        </svg>
+                        <span>{{ message }}</span>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </button>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-with-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                    </svg>
+                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="otp">Verification Code</label>
+                <div class="input-with-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                    </svg>
+                    <input type="text" id="otp" name="otp" placeholder="Enter 6-digit code" required maxlength="7" inputmode="numeric">
+                </div>
+                <div class="resend-container">
+                    <small class="resend-text">Didn't receive code?</small>
+                    <a href="#" class="resend-link">Resend OTP</a>
+                    <span class="resend-timer">(1:30)</span>
+                </div>
+            </div>
+
+            <button type="submit" class="auth-button">
+                <span class="button-text">Verify & Continue</span>
+                <span class="button-spinner">
+                    <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25"/>
+                        <path d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z">
+                            <animateTransform attributeName="transform" type="rotate" dur="0.75s" values="0 12 12;360 12 12" repeatCount="indefinite"/>
+                        </path>
+                    </svg>
+                </span>
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Having trouble? <a href="#">Contact Support</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --primary-color: #4361ee;
+        --primary-hover: #3a56d4;
+        --primary-light: #edf2fe;
+        --error-color: #ef233c;
+        --error-light: #fff5f5;
+        --success-color: #06d6a0;
+        --success-light: #f0fff8;
+        --warning-color: #ffd166;
+        --text-color: #2b2d42;
+        --text-light: #6c757d;
+        --light-gray: #f8f9fa;
+        --border-color: #e9ecef;
+        --border-radius: 12px;
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background-color: #f8fafc;
+        color: var(--text-color);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+    }
+    
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 2rem;
+        background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);
+    }
+    
+    .auth-card {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+        width: 100%;
+        max-width: 480px;
+        padding: 2.5rem;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid var(--border-color);
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .auth-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(67, 97, 238, 0.1);
+    }
+    
+    .auth-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #4361ee 0%, #3a0ca3 100%);
+    }
+    
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+    
+    .auth-icon {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primary-light);
+        border-radius: 50%;
+        color: var(--primary-color);
+        box-shadow: inset 0 0 0 1px rgba(67, 97, 238, 0.2);
+    }
+    
+    .auth-icon svg {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .auth-header h2 {
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+        font-size: 1.75rem;
+    }
+    
+    .auth-header p {
+        color: var(--text-light);
+        font-size: 1rem;
+    }
+    
+    .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.75rem;
+    }
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .form-group label {
+        font-weight: 500;
+        color: var(--text-color);
+        font-size: 0.9375rem;
+    }
+    
+    .input-with-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    
+    .input-with-icon svg {
+        position: absolute;
+        left: 14px;
+        color: var(--text-light);
+        z-index: 1;
+        transition: var(--transition);
+    }
+    
+    .input-with-icon input {
+        width: 100%;
+        padding: 14px 16px 14px 44px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: var(--transition);
+        background-color: white;
+        position: relative;
+        z-index: 0;
+    }
+    
+    .input-with-icon input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+    }
+    
+    .input-with-icon input:focus + svg {
+        color: var(--primary-color);
+    }
+    
+    .resend-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.25rem;
+    }
+    
+    .resend-text {
+        color: var(--text-light);
+        font-size: 0.875rem;
+    }
+    
+    .resend-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: var(--transition);
+    }
+    
+    .resend-link:hover {
+        text-decoration: underline;
+        color: var(--primary-hover);
+    }
+    
+    .resend-timer {
+        color: var(--text-light);
+        font-size: 0.875rem;
+    }
+    
+    .auth-button {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 16px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        transition: var(--transition);
+        margin-top: 0.5rem;
+        box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2);
+    }
+    
+    .auth-button:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(67, 97, 238, 0.25);
+    }
+    
+    .auth-button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(67, 97, 238, 0.2);
+    }
+    
+    .button-spinner {
+        display: none;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        100% { transform: rotate(360deg); }
+    }
+    
+    .alert {
+        padding: 0.875rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        animation: slideIn 0.3s ease-out;
+    }
+    
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .alert-content {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .alert-icon {
+        flex-shrink: 0;
+    }
+    
+    .alert-danger {
+        background-color: var(--error-light);
+        color: var(--error-color);
+        border: 1px solid rgba(239, 35, 60, 0.2);
+    }
+    
+    .alert-success {
+        background-color: var(--success-light);
+        color: var(--success-color);
+        border: 1px solid rgba(6, 214, 160, 0.2);
+    }
+    
+    .btn-close {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.25rem;
+        margin-left: 0.75rem;
+        color: inherit;
+        opacity: 0.7;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .btn-close:hover {
+        opacity: 1;
+    }
+    
+    .btn-close svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    /* Loading state */
+    .auth-form.loading .button-text {
+        display: none;
+    }
+    
+    .auth-form.loading .button-spinner {
+        display: block;
+    }
+    
+    .auth-form.loading .auth-button {
+        cursor: not-allowed;
+        background-color: var(--primary-hover);
+    }
+    
+    .auth-footer {
+        text-align: center;
+        margin-top: 2rem;
+        font-size: 0.875rem;
+        color: var(--text-light);
+    }
+    
+    .auth-footer a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+    }
+    
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+        .auth-container {
+            padding: 1rem;
+        }
+        
+        .auth-card {
+            padding: 1.75rem;
+        }
+        
+        .auth-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1rem;
+        }
+        
+        .auth-header h2 {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+
+// Format OTP input to automatically add space after 3 digits
+otpInput.addEventListener('input', function(e) {
+    // Remove all non-digit characters
+    let value = e.target.value.replace(/\D/g, '');
+    
+    // Add space after 3 digits
+    if (value.length > 3) {
+        value = value.substring(0, 3) + ' ' + value.substring(3, 6);
+    }
+    
+    // Update the input value (max 6 digits + space)
+    e.target.value = value.substring(0, 7);
+});
+
+// Before form submission, you should clean the OTP value by removing the space
+form.addEventListener('submit', function(e) {
+    // Clean the OTP value by removing any spaces
+    const otpValue = otpInput.value.replace(/\s/g, '');
+    otpInput.value = otpValue;
+    
+    // Continue with your form submission logic
+    form.classList.add('loading');
+    
+    // ... rest of your submission code
+});
+
+{% endblock 'main' %}

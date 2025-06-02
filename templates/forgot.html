@@ -1,0 +1,278 @@
+{% extends 'base.html'%}
+{% block 'main' %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white py-4">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-shield-lock me-3" viewBox="0 0 16 16">
+                            <path d="M5.338 1.59a61.44 61.44 0 0 0-2.837.856.481.481 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.725 10.725 0 0 0 2.287 2.233c.346.244.652.42.893.533.12.057.218.095.293.118a.55.55 0 0 0 .101.025.615.615 0 0 0 .1-.025c.076-.023.174-.061.294-.118.24-.113.547-.29.893-.533a10.726 10.726 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.775 11.775 0 0 1-2.517 2.453 7.159 7.159 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7.158 7.158 0 0 1-1.048-.625 11.777 11.777 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 62.456 62.456 0 0 1 5.072.56z"/>
+                            <path d="M9.5 6.5a1.5 1.5 0 0 1-1 1.415l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99a1.5 1.5 0 1 1 2-1.415z"/>
+                        </svg>
+                        <h3 class="mb-0 text-center">Password Reset</h3>
+                    </div>
+                </div>
+                <div class="card-body p-5">
+                    <form method="POST" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show" role="alert">
+                                <div class="d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi {% if message.tags == 'error' %}bi-exclamation-triangle-fill{% else %}bi-check-circle-fill{% endif %} me-2" viewBox="0 0 16 16">
+                                        {% if message.tags == 'error' %}
+                                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                        {% else %}
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                        {% endif %}
+                                    </svg>
+                                    <div>{{ message }}</div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <div class="mb-4">
+                            <label for="emailInput" class="form-label fw-semibold">Email Address</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                                        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                                    </svg>
+                                </span>
+                                <input type="email" 
+                                       class="form-control form-control-lg border-start-0" 
+                                       id="emailInput" 
+                                       name="email" 
+                                       placeholder="Enter your registered email" 
+                                       required
+                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                                <div class="invalid-feedback">
+                                    Please provide a valid email address.
+                                </div>
+                            </div>
+                            <small class="text-muted">We'll send a password reset OTP to this email.</small>
+                        </div>
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 fw-semibold">
+                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                <span class="ms-2">Send OTP</span>
+                            </button>
+                        </div>
+                        
+                        <div class="text-center mt-4 pt-3 border-top">
+                            <a href="{% url 'login' %}" class="text-decoration-none d-flex align-items-center justify-content-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left me-2" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                                </svg>
+                                Back to Login
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --primary-color: #4361ee;
+        --primary-hover: #3a56d4;
+        --gradient-start: #4361ee;
+        --gradient-end: #3f37c9;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+        font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+    
+    .card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(5px);
+    }
+    
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.08);
+    }
+    
+    .card-header {
+        padding: 1.75rem;
+        background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    }
+    
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    }
+    
+    .input-group-text {
+        background-color: #fff;
+        border-right: none;
+        padding: 0.75rem 1rem;
+    }
+    
+    .form-control {
+        border-left: none;
+        padding: 0.75rem;
+        transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+        box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.2);
+        border-color: #b6c1f8;
+    }
+    
+    .form-control-lg {
+        font-size: 1rem;
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
+        border: none;
+        padding: 0.75rem;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(67, 97, 238, 0.25);
+    }
+    
+    .btn-primary:active {
+        transform: translateY(1px);
+    }
+    
+    .btn-primary::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: scale(1, 1) translate(-50%);
+        transform-origin: 50% 50%;
+    }
+    
+    .btn-primary:focus:not(:active)::after {
+        animation: ripple 1s ease-out;
+    }
+    
+    @keyframes ripple {
+        0% {
+            transform: scale(0, 0);
+            opacity: 0.5;
+        }
+        100% {
+            transform: scale(20, 20);
+            opacity: 0;
+        }
+    }
+    
+    .alert {
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .invalid-feedback {
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .card {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+    }
+</style>
+
+<script>
+    // Enhanced form validation with animations
+    (function () {
+        'use strict'
+        
+        var form = document.querySelector('.needs-validation');
+        var submitBtn = form.querySelector('button[type="submit"]');
+        var spinner = submitBtn.querySelector('.spinner-border');
+        
+        // Add input event listeners for real-time validation
+        var emailInput = document.getElementById('emailInput');
+        emailInput.addEventListener('input', function() {
+            if (emailInput.value.length > 0) {
+                if (emailInput.checkValidity()) {
+                    emailInput.classList.remove('is-invalid');
+                    emailInput.classList.add('is-valid');
+                } else {
+                    emailInput.classList.remove('is-valid');
+                    emailInput.classList.add('is-invalid');
+                }
+            } else {
+                emailInput.classList.remove('is-valid', 'is-invalid');
+            }
+        });
+        
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+                
+                // Add shake animation to invalid fields
+                var invalidFields = form.querySelectorAll('.is-invalid');
+                invalidFields.forEach(function(field) {
+                    field.classList.add('animate__animated', 'animate__headShake');
+                    setTimeout(function() {
+                        field.classList.remove('animate__animated', 'animate__headShake');
+                    }, 1000);
+                });
+            } else {
+                // Show loading spinner and disable button
+                spinner.classList.remove('d-none');
+                submitBtn.disabled = true;
+                submitBtn.querySelector('span.ms-2').textContent = 'Sending...';
+            }
+            
+            form.classList.add('was-validated');
+        }, false);
+        
+        // Add animation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            var card = document.querySelector('.card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            setTimeout(function() {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    })();
+</script>
+
+<!-- Include Animate.css for additional animations -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+{% endblock 'main'%}

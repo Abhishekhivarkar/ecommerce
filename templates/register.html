@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-{% block main %}
+{% block 'main' %}
 
 <style>
+
   :root {
     --primary-color: #4f46e5;
     --primary-dark: #4338ca;
@@ -403,6 +404,8 @@
   .is-invalid:focus {
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
   }
+
+  
 </style>
 
 <section class="registration-section">
@@ -445,7 +448,7 @@
               <div class="input-group animate-fade delay-1">
                 <label for="id_username" class="form-label">Username</label>
                 <input type="text" class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
-                       id="id_username" name="username" 
+                       id="id_username" name="uname" 
                        value="{{ form.username.value|default_if_none:'' }}"
                        placeholder="Enter your username" required>
                 <i class="fas fa-user input-icon"></i>
@@ -459,7 +462,7 @@
               <div class="input-group animate-fade delay-1">
                 <label for="id_email" class="form-label">Email Address</label>
                 <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" 
-                       id="id_email" name="email" 
+                       id="id_email" name="uemail" 
                        value="{{ form.email.value|default_if_none:'' }}"
                        placeholder="your@email.com" required>
                 <i class="fas fa-envelope input-icon"></i>
@@ -473,7 +476,7 @@
               <div class="input-group animate-fade delay-2">
                 <label for="id_password1" class="form-label">Password</label>
                 <input type="password" class="form-control {% if form.password1.errors %}is-invalid{% endif %}" 
-                       id="id_password1" name="password1" 
+                       id="id_password1" name="upass" 
                        placeholder="Create a password" required>
                 <i class="fas fa-lock input-icon"></i>
                 <div class="password-strength">
@@ -489,7 +492,7 @@
               <div class="input-group animate-fade delay-2">
                 <label for="id_password2" class="form-label">Confirm Password</label>
                 <input type="password" class="form-control {% if form.password2.errors %}is-invalid{% endif %}" 
-                       id="id_password2" name="password2" 
+                       id="id_password2" name="ucpass" 
                        placeholder="Confirm your password" required>
                 <i class="fas fa-lock input-icon"></i>
                 {% if form.password2.errors %}
@@ -596,4 +599,4 @@
   });
 </script>
 
-{% endblock %}
+{% endblock 'main'%}
