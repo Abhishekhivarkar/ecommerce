@@ -134,7 +134,7 @@ def register(request):
     return render(request, "register.html")
 
 
-
+from django.contrib.auth import login 
 
 @csrf_protect
 def user_login(request):
@@ -352,7 +352,7 @@ def remove(request,cid):
     c.delete()
     return redirect('/cart')
 
-def placeorder(request):
+def placeholder(request):
     c=Cart.objects.filter(uid=request.user.id)
     for i in c:
         a= i.pid.price * i.qty
@@ -372,4 +372,25 @@ def fetchorder(request):
     context['n']=len(o)
     return render(request,'placeorder.html',context)
 
+import razorpay
+from django.shortcuts import render
+from .models import Order  # Adjust import as needed
+
+def makepayment(request):
+    client = razorpay.Client(auth=("rzp_test_7JswiSkosFlxKD","SJfkSZGZaNI8wamzva8d2QYr"))
+
+    total_amount = sum(order.amt for order in Order.objects.filter(uid=request.user.id))
+
+    # Razorpay requires amount in paisa (multiply by 100)
+    payment = client.order.create({
+        "amount": total_amount * 100,  # amount in paisa
+        "currency": "INR",
+        "receipt": "order_rcptid_11"
+    })
+
+    return render(request, "pay.html", {"payment": payment})
+
+def paymentsuccess(request):
+    total_amount = sum(order.amt for order in Order.objects.filter(uid=request.user.id))
+    return render(request, "paymentsuccess.html", {"total_amount": total_amount})
             

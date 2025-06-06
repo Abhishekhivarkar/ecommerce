@@ -1,0 +1,110 @@
+{% extends 'base.html' %} {% block 'main' %}
+
+<div class="row mt-3">
+  <div class="col-md-6 mx-auto shadow-lg p-5 rounded-3 animate__animated animate__fadeInUp" style="background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);">
+    <div class="text-center">
+      <!-- Animated checkmark -->
+      <div class="mb-4">
+        <svg class="checkmark animate__animated animate__bounceIn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" width="80" height="80">
+          <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" stroke="#4CAF50" stroke-width="2"/>
+          <path class="checkmark__check" fill="none" stroke="#4CAF50" stroke-width="4" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      
+      <h2 class="text-success fw-bold mb-3 animate__animated animate__fadeIn">Payment Successful!</h2>
+      
+      <div class="confetti animate__animated animate__bounceIn"></div>
+      
+      <p class="lead text-muted animate__animated animate__fadeIn animate__delay-1s">
+        <i class="fas fa-check-circle text-success me-2"></i> Your order has been processed successfully.
+      </p>
+      
+      <div class="my-4 animate__animated animate__fadeIn animate__delay-1s">
+        <p class="mb-2">Thank you for shopping with us!</p>
+        <p>An email confirmation has been sent to your registered email address.</p>
+      </div>
+      
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center animate__animated animate__fadeIn animate__delay-2s">
+        <a href="/product" class="btn btn-success btn-lg px-4 gap-3">
+          <i class="fas fa-shopping-bag me-2"></i> Shop More
+        </a>
+        <a href="/orders" class="btn btn-outline-secondary btn-lg px-4">
+          <i class="fas fa-clipboard-list me-2"></i> View Orders
+        </a>
+      </div>
+      
+      <div class="mt-4 animate__animated animate__fadeIn animate__delay-2s">
+        <small class="text-muted">Need help? <a href="/contact" class="text-decoration-none">Contact us</a></small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Checkmark animation */
+  .checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+  
+  .checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  }
+  
+  @keyframes stroke {
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  /* Confetti effect */
+  .confetti {
+    width: 15px;
+    height: 15px;
+    background-color: #f00;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: confetti 5s ease-in-out -2s infinite;
+  }
+  
+  .confetti:nth-child(1) {
+    background-color: #f00; left: 45%; animation-delay: 0;
+  }
+  .confetti:nth-child(2) {
+    background-color: #0f0; left: 55%; animation-delay: -1s;
+  }
+  .confetti:nth-child(3) {
+    background-color: #00f; left: 40%; animation-delay: -1.5s;
+  }
+  .confetti:nth-child(4) {
+    background-color: #ff0; left: 60%; animation-delay: -0.5s;
+  }
+  
+  @keyframes confetti {
+    0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg) scale(0.5); opacity: 0; }
+  }
+  
+  /* Card hover effect */
+  .shadow-lg {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .shadow-lg:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+  }
+</style>
+
+<!-- Include Animate.css and Font Awesome for animations and icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+
+{% endblock 'main'%}
